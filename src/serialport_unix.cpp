@@ -403,9 +403,9 @@ void EIO_Close(uv_work_t* req) {
   CloseBaton* data = static_cast<CloseBaton*>(req->data);
 
   // printf(">>>> close fd %d\n", data->fd);
-
-  // fcntl(data->fd, F_SETFL, FNONBLOCK);
-
+  #ifdef __APPLE__
+    fcntl(data->fd, F_SETFL, FNONBLOCK);
+  #endif
   ssize_t r;
 
   r = close(data->fd);
